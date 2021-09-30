@@ -1,0 +1,32 @@
+html {
+    padding: 0px;
+}
+
+.current {
+    border: 1px solid black;
+    margin-right: 10px;
+}
+
+.header {
+    text-align: center;
+    padding: 0;
+    background-image: linear-gradient(to right, #3b6ec4, #230455);
+    height: 75px;
+}
+
+.header h1 {
+    color: white;
+    font-weight: bold;
+}
+
+.card {
+    background-color: #33475a;
+}
+
+.card-title {
+    color: white;
+}
+
+.card-text {
+    color: white;
+}
