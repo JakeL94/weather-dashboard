@@ -14,19 +14,20 @@
     <h1>Weather Dashboard</h1>
   </header>
     <div class="row align-items-start">
-      <div class="col-4">
-				<div>
-					<h2>
-						Search For a City
-					</h2>
+      <div class="col-3 p-3">
+		  <h2>
+			  Search For a City
+			</h2>
+			<div>
+					<input type="text" id="search" type="text" autofocus="true" class="form-input w-100 py-2" />
+					<div class="d-grid gap-2 pt-2">
+						<button type="button" class="btn btn-primary btn-sm" id="button">Search</button>
+					</div>
 				</div>
-				<div>
-					<input type="text" id="search">
-				</div>
-				<button type="button" class="btn btn-primary">Search</button>
+				<hr/>
 				<div id="history"></div>
       </div>
-      <div class="col-8">
+      <div class="col-9 py-3">
         <div class="row current">
 					<div>
 						<h4 id="city"> City, Date, emoji</h4>
