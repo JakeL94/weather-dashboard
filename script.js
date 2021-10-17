@@ -19,6 +19,7 @@
 // create a 5 day forecast with 5 bootstrap cards
 
 const apiKey = '67006a78d4e65d294f4a616989d3e745';
+const apiUrl = "https://api.openweathermap.org/data/2.5";
 
 const search = document.getElementById('search');
 const button = document.getElementById('button');
@@ -50,35 +51,94 @@ const temp5 = document.getElementById('temp5');
 const wind5 = document.getElementById('wind5');
 const humidity5 = document.getElementById('humidity5');
 
-function runAPI(event) {
-    event.prevenDefault();
+function getLonLat(search) {
+    return fetch(`${apiUrl}/weather?q=${search}&appid=${apiKey}`)
+    .then((resp) => resp.json())
+    .then((data) => data.coord);
+}
 
-    let searchTerm = search.value;
-    
+function getWeather(lat, long) {
+    return fetch(
+      `${apiUrl}/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly,alerts&appid=${apiKey}`
+    )
+    .then((resp) => resp.json())
+    .then((data) => data);
+}
+
+function getSearchHistory() {
+    let searchHistory = [];
+    const storageHistory = localStorage.getItem('search.history');
+
+    if (storageHistory) {
+        searchHistory = JSON.parse(storageHistory);
+    }
+
+    return searchHistory;
+}
+
+function saveSearchHistory(searchTerm) {
+    const searchHistory = getSearchHistory();
+
+    searchHistory.push(searchTerm);
+
+    localStorage.setItem('search.history', JSON.stringify(searchHistory));
+
+    return searchHistory;
+};
+
+function removeSearchHistory() {
+    const searchHistory = getSearchHistory();
+
+    while (searchHistory.firstChild) {
+      searchHistory.removeChild(searchHistory.firstChild);
+    }
+}
+  
+function loadSearchHistory() {
+    const searchHistory = getSearchHistory();
+  
+    removeSearchHistory();
+  
+    searchHistory.forEach((searchTerm) => {
+      const searchTermBtn = document.createElement("button");
+  
+      searchTermBtn.innerText = searchTerm;
+  
+      searchHistory.appendChild(searchTermBtn);
+  
+      searchTermBtn.addEventListener("click", runSearchHistory);
+    });
+}
+  
+function runSearchHistory(event) {
+    const searchTerm = event.currentTarget.innerText;
+
     if (searchTerm) {
-        getWeather(searchTerm);
-        fiveDayForecast(searchTerm);
-        searchTerm = '';
-    } else {
-        return;
+      getLonLat(searchTerm).then((coord) => {
+        console.log(coord);
+        getWeather(coord.lat, coord.lon).then((weather) => {
+          console.log(weather);
+        });
+      });
+    }
+}
+  
+function runApi() {
+    const searchTerm = search.value;
+
+    if (searchTerm) {
+      getLonLat(searchTerm).then((coord) => {
+        // console.log(coord);
+        getWeather(coord.lat, coord.lon).then((weather) => {
+          console.log(weather);
+          saveSearchHistory(searchTerm);
+
+          search.value = "";
+        });
+      });
     }
 }
 
-function searchHistory() {
-    localStorage.setItem(search.value);
-};
+button.addEventListener("click", runApi);
 
-function getWeather() {
-    console.log(`https://api.openweathermap.org/data/2.5/onecall?lat=` + lat + `&lon=` + lon + `&exclude=` + minutely, hourly, alerts +`&appid=` + apiKey);
-    fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=` + lat + `&lon=` + lon + `&exclude=` + minutely, hourly, alerts +`&appid=` + apiKey
-    )
-    .then(function(response) {
-        return response.json()
-        .then(function(data) {
-            showInfo(data);
-        });
-    });
-}
-
-button.addEventListener("onclick", runAPI);
+loadSearchHistory();
