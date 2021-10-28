@@ -24,29 +24,37 @@ const apiUrl = "https://api.openweathermap.org/data/2.5";
 const search = document.getElementById('search');
 const button = document.getElementById('button');
 const history = document.getElementById('history');
-const city = document.getElementById('city');
 
+const container = document.getElementById('weather-container');
+
+const city = document.getElementById('city');
+const currentDate = document.getElementById('date')
 const currentTemp = document.getElementById('currentTemp');
 const currentWind = document.getElementById('currentWind');
 const currentHumidity = document.getElementById('currentHumidity');
 const uv = document.getElementById('uv');
 
+const date1 = document.getElementById('date1');
 const temp1 = document.getElementById('temp1');
 const wind1 = document.getElementById('wind1');
 const humidity1 = document.getElementById('humidity1');
 
+const date2 = document.getElementById('date2');
 const temp2 = document.getElementById('temp2');
 const wind2 = document.getElementById('wind2');
 const humidity2 = document.getElementById('humidity2');
 
+const date3 = document.getElementById('date3');
 const temp3 = document.getElementById('temp3');
 const wind3 = document.getElementById('wind3');
 const humidity3 = document.getElementById('humidity3');
 
+const date4 = document.getElementById('date4');
 const temp4 = document.getElementById('temp4');
 const wind4 = document.getElementById('wind4');
 const humidity4 = document.getElementById('humidity4');
 
+const date5 = document.getElementById('date5');
 const temp5 = document.getElementById('temp5');
 const wind5 = document.getElementById('wind5');
 const humidity5 = document.getElementById('humidity5');
@@ -104,11 +112,11 @@ function loadSearchHistory() {
   
       searchTermBtn.innerText = searchTerm;
   
-      searchHistory.appendChild(searchTermBtn);
+    //   searchHistory.appendChild(searchTermBtn);
   
       searchTermBtn.addEventListener("click", runSearchHistory);
     });
-}
+  }
   
 function runSearchHistory(event) {
     const searchTerm = event.currentTarget.innerText;
@@ -131,12 +139,30 @@ function runApi() {
         // console.log(coord);
         getWeather(coord.lat, coord.lon).then((weather) => {
           console.log(weather);
+          console.log(weather.current.temp);
           saveSearchHistory(searchTerm);
 
           search.value = "";
         });
-      });
+    });    
     }
+}
+
+function showWeather(weather, searchTerm) {
+    container.textContent = '';
+    city.textContent = searchTerm;
+    
+    date.textContent = '(' + moment(weather.dt.value).format('MMM D, YYYY') + ')';
+    date.appendChild(currentDate);
+
+    currentTemp.textContent = 'Temp: ' + weather.current.temp + ' °F';
+    // currentTemp.appendChild()
+
+    currentHumidity.textContent = 'Humidity: ' + weather.current.humidity + '%';
+
+    currentWind.textContent = 'Wind: ' + weather.current.wind_speed + 'MPH';
+
+    uv.textContent = 'UV: ' + weather.current.uvi;
 }
 
 button.addEventListener("click", runApi);
