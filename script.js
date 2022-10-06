@@ -18,7 +18,7 @@
 // need conditional statement for the UV index
 // create a 5 day forecast with 5 bootstrap cards
 
-const apiKey = '67006a78d4e65d294f4a616989d3e745';
+const apiKey = '00bc5c26030bd1d2e8b52ee61a2efab8';
 const apiUrl = "https://api.openweathermap.org/data/2.5";
 
 const search = document.getElementById('search');
