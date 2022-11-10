@@ -28,7 +28,8 @@ const history = document.getElementById('history');
 const container = document.getElementById('weather-container');
 
 const city = document.getElementById('city');
-const currentDate = document.getElementById('date')
+const currentDate = document.getElementById('date');
+
 const currentTemp = document.getElementById('currentTemp');
 const currentWind = document.getElementById('currentWind');
 const currentHumidity = document.getElementById('currentHumidity');
@@ -65,7 +66,8 @@ function getLonLat(search) {
     .then((data) => data.coord);
 }
 
-function getWeather(lat, long) {
+function getWeather(lat, long) {  
+  console.log("running weather");
     return fetch(
       `${apiUrl}/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly,alerts&appid=${apiKey}`
     )
@@ -112,7 +114,7 @@ function loadSearchHistory() {
   
       searchTermBtn.innerText = searchTerm;
   
-    //   searchHistory.appendChild(searchTermBtn);
+      searchHistory.appendChild(searchTermBtn);
   
       searchTermBtn.addEventListener("click", runSearchHistory);
     });
@@ -137,10 +139,12 @@ function runApi() {
     if (searchTerm) {
       getLonLat(searchTerm).then((coord) => {
         // console.log(coord);
+        console.log("running");
         getWeather(coord.lat, coord.lon).then((weather) => {
           console.log(weather);
           console.log(weather.current.temp);
           saveSearchHistory(searchTerm);
+          showWeather(weather, searchTerm);
 
           search.value = "";
         });
@@ -148,14 +152,25 @@ function runApi() {
     }
 }
 
+function convertToFahren(kelvinTemp){
+  return (kelvinTemp - 273.15) * (9/5) + 32;
+  
+}
+
+//weather.daily[i].dt.value
 function showWeather(weather, searchTerm) {
-    container.textContent = '';
+  console.log("showWeather()");
+  console.log(weather);
+  console.log(searchTerm);
+    // container.textContent = '';
     city.textContent = searchTerm;
     
-    date.textContent = '(' + moment(weather.dt.value).format('MMM D, YYYY') + ')';
-    date.appendChild(currentDate);
+    let text = '(' + moment(weather.current.dt.value).format('MMM D, YYYY') + ')';
+    currentDate.textContent = text;
+    
+    
 
-    currentTemp.textContent = 'Temp: ' + weather.current.temp + ' °F';
+    currentTemp.textContent = 'Temp: ' + convertToFahren(weather.current.temp) + ' °F';
     // currentTemp.appendChild()
 
     currentHumidity.textContent = 'Humidity: ' + weather.current.humidity + '%';
@@ -167,4 +182,6 @@ function showWeather(weather, searchTerm) {
 
 button.addEventListener("click", runApi);
 
-loadSearchHistory();
+// saveSearchHistory('');
+// loadSearchHistory();
+// showWeather('', '');
