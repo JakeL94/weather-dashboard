@@ -12,7 +12,7 @@
 An app designed to get the current weather along with a five day forecast for the city of your choice.
 
 ## Link
-
+https://jakel94.github.io/weather-dashboard/
 
 ## Questions
 Questions? Please feel free to contact me at
