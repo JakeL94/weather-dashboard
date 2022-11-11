@@ -35,30 +35,8 @@ const currentWind = document.getElementById('currentWind');
 const currentHumidity = document.getElementById('currentHumidity');
 const uv = document.getElementById('uv');
 
-const date1 = document.getElementById('date1');
-const temp1 = document.getElementById('temp1');
-const wind1 = document.getElementById('wind1');
-const humidity1 = document.getElementById('humidity1');
-
-const date2 = document.getElementById('date2');
-const temp2 = document.getElementById('temp2');
-const wind2 = document.getElementById('wind2');
-const humidity2 = document.getElementById('humidity2');
-
-const date3 = document.getElementById('date3');
-const temp3 = document.getElementById('temp3');
-const wind3 = document.getElementById('wind3');
-const humidity3 = document.getElementById('humidity3');
-
-const date4 = document.getElementById('date4');
-const temp4 = document.getElementById('temp4');
-const wind4 = document.getElementById('wind4');
-const humidity4 = document.getElementById('humidity4');
-
-const date5 = document.getElementById('date5');
-const temp5 = document.getElementById('temp5');
-const wind5 = document.getElementById('wind5');
-const humidity5 = document.getElementById('humidity5');
+const cardContainer = document.getElementById('cardContainer');
+const numForecastDays = 5;
 
 function getLonLat(search) {
     return fetch(`${apiUrl}/weather?q=${search}&appid=${apiKey}`)
@@ -162,7 +140,7 @@ function convertToFahren(kelvinTemp){
 function showWeather(weather, searchTerm) {
     city.textContent = searchTerm;
     
-    let text = '(' + moment(weather.current.dt.value).format('MMM D, YYYY') + ')';
+    let text = moment(weather.current.dt.value).format('MMM D, YYYY');
     currentDate.textContent = text;
     
     
@@ -176,58 +154,31 @@ function showWeather(weather, searchTerm) {
     uv.textContent = 'UV: ' + weather.current.uvi;
 }
 
-function dailyWeather(weather) {
-  for(let i = 0; i < 5; i++) {
-    let date = '(' + moment(weather.daily[i].dt.value).format('MMM D, YYYY') + ')';
-  
-    let temp = 'Temp: ' + convertToFahren(weather.daily[i].temp.max) + ' °F';
-  
-    let humid = 'Humidity: ' + weather.daily[i].humidity + '%';
-  
-    let wind = 'Wind: ' + weather.daily[i].wind_speed + 'MPH';
-  
-    if(i == 0) {
-      date1.textContent = date;
-  
-      temp1.textContent = temp;
-  
-      wind1.textContent = wind;
-  
-      humidity1.textContent = humid;
-    } else if(i == 1) {
-      date2.textContent = date;
-  
-      temp2.textContent = temp;
-  
-      wind2.textContent = wind;
-  
-      humidity2.textContent = humid;
-    } else if(i == 2) {
-      date3.textContent = date;
-  
-      temp3.textContent = temp;
-  
-      wind3.textContent = wind;
-  
-      humidity3.textContent = humid;
-    } else if(i == 3) {
-      date4.textContent = date;
-  
-      temp4.textContent = temp;
-  
-      wind4.textContent = wind;
-  
-      humidity4.textContent = humid;
-    } else if(i == 4) {
-      date5.textContent = date;
-  
-      temp5.textContent = temp;
-  
-      wind5.textContent = wind;
-  
-      humidity5.textContent = humid;
-    };
-  };
+function dailyWeather(weather){
+  let date = '';  
+  let temp = '';  
+  let humid = '';
+  let wind = '';
+
+  let card = ``;
+
+  for(let i = 0; i < numForecastDays; i++){
+      date = moment(weather.daily[i].dt.value).format('MMM D, YYYY');
+      temp = 'Temp: ' + convertToFahren(weather.daily[i].temp.max) + ' °F';
+      humid = 'Humidity: ' + weather.daily[i].humidity + '%';
+      wind = 'Wind: ' + weather.daily[i].wind_speed + 'MPH';
+      
+      card = `<div class="card" style="width: 11rem;">
+                  <div class="card-body">
+                      <h5 class="card-title" id="date1">${date}</h5>
+                      <p class="card-text" id="temp1">${temp}</p>
+                      <p class="card-text" id="wind1">${wind}</p>
+                      <p class="card-text" id="humidity1">${humid}</p>
+                  </div>
+              </div>`;
+
+      cardContainer.innerHTML += card;
+  }
 }
 
 button.addEventListener("click", runApi);
