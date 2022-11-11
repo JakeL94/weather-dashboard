@@ -2,94 +2,102 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-		<link rel="stylesheet" href="./styles.css">
-    <title>Weather Dashboard</title>
-  </head>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="./styles.css">
+	<title>Weather Dashboard</title>
+</head>
+
 <body>
-  <header class='header'>
-    <h1>Weather Dashboard</h1>
-  </header>
-    <div class="row align-items-start">
-      <div class="col-3 p-3">
-		  <h2>
-			  Search For a City
+	<header class='header'>
+		<h1>Weather Dashboard</h1>
+	</header>
+	<div class="row align-items-start">
+		<div class="col-3 p-3">
+			<h2>
+				Search For a City
 			</h2>
 			<div>
-					<input type="text" id="search" type="text" autofocus="true" class="form-input w-100 py-2" />
-					<div class="d-grid gap-2 pt-2">
-						<button type="button" class="btn btn-primary btn-sm" id="button">Search</button>
-					</div>
+				<input type="text" id="search" type="text" autofocus="true" class="form-input w-100 py-2" />
+				<div class="d-grid gap-2 pt-2">
+					<button type="button" class="btn btn-primary btn-sm" id="button">Search</button>
 				</div>
-				<hr/>
-				<div id="history"></div>
-      </div>
-      <div class="col-9 py-3" id="weather-container">
-        <div class="row current">
-					<div>
-						<h4 id="city"> City</h4>
-						
-						<h4 id="date"> Date</h4>
+			</div>
+			<hr />
+			<div id="history">
 
-						<p id="currentTemp">Temp: </p>
-						<p id="currentWind">Wind: </p>
-						<p id="currentHumidity">Humidity: </p>
-						<p id="uv">UV: </p>
+			</div>
+		</div>
+		<div class="col-9 py-3" id="weather-container">
+			<div class="row current">
+				<div>
+					<h4 id="city"> City</h4>
+
+					<h4 id="date"> Date</h4>
+
+					<p id="currentTemp">Temp: </p>
+					<p id="currentWind">Wind: </p>
+					<p id="currentHumidity">Humidity: </p>
+					<p id="uv">UV: </p>
+				</div>
+			</div>
+			<div class="row">
+				<div>
+					5 Day Forecast:
+				</div>
+				<!-- https://getbootstrap.com/docs/5.0/components/card/ card template -->
+				<div class="card" style="width: 11rem;">
+					<div class="card-body">
+						<h5 class="card-title" id="date1">Date</h5>
+						<p class="card-text" id="temp1">Temp: </p>
+						<p class="card-text" id="wind1">Wind: </p>
+						<p class="card-text" id="humidity1">Humidity: </p>
 					</div>
 				</div>
-				<div class="row">
-					<div>
-						5 Day Forecast:
-					</div>
-					<!-- https://getbootstrap.com/docs/5.0/components/card/ card template -->
-					<div class="card" style="width: 11rem;">
-						<div class="card-body">
-							<h5 class="card-title" id="date1">Date</h5>
-							<p class="card-text" id="temp1">Temp: </p>
-							<p class="card-text" id="wind1">Wind: </p>
-							<p class="card-text" id="humidity1">Humidity: </p>
-						</div>
-					</div>
-					<div class="card" style="width: 11rem;">
-						<div class="card-body">
-							<h5 class="card-title" id="date2">Date</h5>
-							<p class="card-text" id="temp2">Temp: </p>
-							<p class="card-text" id="wind2">Wind: </p>
-							<p class="card-text" id="humidity2">Humidity: </p>
-						</div>
-					</div>
-					<div class="card" style="width: 11rem;">
-						<div class="card-body">
-							<h5 class="card-title" id="date3">Date</h5>
-							<p class="card-text" id="temp3">Temp: </p>
-							<p class="card-text" id="wind3">Wind: </p>
-							<p class="card-text" id="humidity3">Humidity: </p>
-						</div>
-					</div>
-					<div class="card" style="width: 11rem;">
-						<div class="card-body">
-							<h5 class="card-title" id="date4">Date</h5>
-							<p class="card-text" id="temp4">Temp: </p>
-							<p class="card-text" id="wind4">Wind: </p>
-							<p class="card-text" id="humidity4">Humidity: </p>
-						</div>
-					</div>
-					<div class="card" style="width: 11rem;">
-						<div class="card-body">
-							<h5 class="card-title" id="date5">Date</h5>
-							<p class="card-text" id="temp5">Temp: </p>
-							<p class="card-text" id="wind5">Wind: </p>
-							<p class="card-text" id="humidity5">Humidity: </p>
-						</div>
+				<div class="card" style="width: 11rem;">
+					<div class="card-body">
+						<h5 class="card-title" id="date2">Date</h5>
+						<p class="card-text" id="temp2">Temp: </p>
+						<p class="card-text" id="wind2">Wind: </p>
+						<p class="card-text" id="humidity2">Humidity: </p>
 					</div>
 				</div>
-      </div>
-    </div>        
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="./script.js"></script>
+				<div class="card" style="width: 11rem;">
+					<div class="card-body">
+						<h5 class="card-title" id="date3">Date</h5>
+						<p class="card-text" id="temp3">Temp: </p>
+						<p class="card-text" id="wind3">Wind: </p>
+						<p class="card-text" id="humidity3">Humidity: </p>
+					</div>
+				</div>
+				<div class="card" style="width: 11rem;">
+					<div class="card-body">
+						<h5 class="card-title" id="date4">Date</h5>
+						<p class="card-text" id="temp4">Temp: </p>
+						<p class="card-text" id="wind4">Wind: </p>
+						<p class="card-text" id="humidity4">Humidity: </p>
+					</div>
+				</div>
+				<div class="card" style="width: 11rem;">
+					<div class="card-body">
+						<h5 class="card-title" id="date5">Date</h5>
+						<p class="card-text" id="temp5">Temp: </p>
+						<p class="card-text" id="wind5">Wind: </p>
+						<p class="card-text" id="humidity5">Humidity: </p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script src="./script.js"></script>
 </body>
+
 </html>

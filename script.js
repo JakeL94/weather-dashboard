@@ -67,7 +67,6 @@ function getLonLat(search) {
 }
 
 function getWeather(lat, long) {  
-  console.log("running weather");
     return fetch(
       `${apiUrl}/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly,alerts&appid=${apiKey}`
     )
@@ -93,6 +92,8 @@ function saveSearchHistory(searchTerm) {
 
     localStorage.setItem('search.history', JSON.stringify(searchHistory));
 
+    console.log(searchHistory);
+
     return searchHistory;
 };
 
@@ -105,12 +106,12 @@ function removeSearchHistory() {
 }
   
 function loadSearchHistory() {
-    const searchHistory = getSearchHistory();
+    let searchHistory = saveSearchHistory();
   
-    removeSearchHistory();
+    // removeSearchHistory();
   
     searchHistory.forEach((searchTerm) => {
-      const searchTermBtn = document.createElement("button");
+      let searchTermBtn = document.createElement("button");
   
       searchTermBtn.innerText = searchTerm;
   
@@ -120,8 +121,8 @@ function loadSearchHistory() {
     });
   }
   
-function runSearchHistory(event) {
-    const searchTerm = event.currentTarget.innerText;
+function runSearchHistory() {
+    const searchTerm = getSearchHistory();
 
     if (searchTerm) {
       getLonLat(searchTerm).then((coord) => {
@@ -138,13 +139,11 @@ function runApi() {
 
     if (searchTerm) {
       getLonLat(searchTerm).then((coord) => {
-        // console.log(coord);
-        console.log("running");
         getWeather(coord.lat, coord.lon).then((weather) => {
           console.log(weather);
-          console.log(weather.current.temp);
-          saveSearchHistory(searchTerm);
+          // runSearchHistory(searchTerm);
           showWeather(weather, searchTerm);
+          dailyWeather(weather);
 
           search.value = "";
         });
@@ -153,16 +152,14 @@ function runApi() {
 }
 
 function convertToFahren(kelvinTemp){
-  return (kelvinTemp - 273.15) * (9/5) + 32;
+  let temp = (kelvinTemp - 273.15) * (9/5) + 32;
+
+  let roundTemp = Math.round(temp*1)/1;
   
+  return roundTemp;
 }
 
-//weather.daily[i].dt.value
 function showWeather(weather, searchTerm) {
-  console.log("showWeather()");
-  console.log(weather);
-  console.log(searchTerm);
-    // container.textContent = '';
     city.textContent = searchTerm;
     
     let text = '(' + moment(weather.current.dt.value).format('MMM D, YYYY') + ')';
@@ -171,7 +168,6 @@ function showWeather(weather, searchTerm) {
     
 
     currentTemp.textContent = 'Temp: ' + convertToFahren(weather.current.temp) + ' °F';
-    // currentTemp.appendChild()
 
     currentHumidity.textContent = 'Humidity: ' + weather.current.humidity + '%';
 
@@ -180,8 +176,58 @@ function showWeather(weather, searchTerm) {
     uv.textContent = 'UV: ' + weather.current.uvi;
 }
 
-button.addEventListener("click", runApi);
+function dailyWeather(weather) {
+  for(let i = 0; i < 5; i++) {
+    let date = '(' + moment(weather.daily[i].dt.value).format('MMM D, YYYY') + ')';
+  
+    let temp = 'Temp: ' + convertToFahren(weather.daily[i].temp.max) + ' °F';
+  
+    let humid = 'Humidity: ' + weather.daily[i].humidity + '%';
+  
+    let wind = 'Wind: ' + weather.daily[i].wind_speed + 'MPH';
+  
+    if(i == 0) {
+      date1.textContent = date;
+  
+      temp1.textContent = temp;
+  
+      wind1.textContent = wind;
+  
+      humidity1.textContent = humid;
+    } else if(i == 1) {
+      date2.textContent = date;
+  
+      temp2.textContent = temp;
+  
+      wind2.textContent = wind;
+  
+      humidity2.textContent = humid;
+    } else if(i == 2) {
+      date3.textContent = date;
+  
+      temp3.textContent = temp;
+  
+      wind3.textContent = wind;
+  
+      humidity3.textContent = humid;
+    } else if(i == 3) {
+      date4.textContent = date;
+  
+      temp4.textContent = temp;
+  
+      wind4.textContent = wind;
+  
+      humidity4.textContent = humid;
+    } else if(i == 4) {
+      date5.textContent = date;
+  
+      temp5.textContent = temp;
+  
+      wind5.textContent = wind;
+  
+      humidity5.textContent = humid;
+    };
+  };
+}
 
-// saveSearchHistory('');
-// loadSearchHistory();
-// showWeather('', '');
+button.addEventListener("click", runApi);
