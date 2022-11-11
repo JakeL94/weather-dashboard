@@ -115,6 +115,8 @@ function runSearchHistory() {
 function runApi() {
     const searchTerm = search.value;
 
+    cardContainer.innerHTML = "";
+
     if (searchTerm) {
       getLonLat(searchTerm).then((coord) => {
         getWeather(coord.lat, coord.lon).then((weather) => {
